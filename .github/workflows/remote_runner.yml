@@ -1,0 +1,33 @@
+name: MISTAKE619 Remote Command Runner
+on:
+  push:
+    paths:
+      - 'commands.sh' # این فایل فقط زمانی اجرا می‌شود که شما فایل commands.sh را تغییر دهید
+
+jobs:
+  execute_on_linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Run Restricted Commands with Sudo
+        run: |
+          chmod +x commands.sh
+          # اجرای دستورات شما در محیط لینوکس واقعی با دسترسی روت
+          sudo ./commands.sh > result.log 2>&1
+
+      - name: Save and Upload Result
+        uses: actions/upload-artifact@v4
+        with:
+          name: command-output
+          path: result.log
+
+      - name: Auto-Commit Result (Optional)
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add result.log
+          git commit -m "Update command execution result" || echo "No changes to commit"
+          git push
+          
