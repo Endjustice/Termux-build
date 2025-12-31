@@ -1,1 +1,1 @@
-apt-get update && apt-get install -y neofetch && neofetch
+echo 'سیستم با موفقیت آزاد شد!'; whoami; uptime
