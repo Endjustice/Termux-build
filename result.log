@@ -1,3 +1,21 @@
-سیستم با موفقیت آزاد شد!
-root
- 01:20:43 up 0 min,  0 user,  load average: 0.93, 0.25, 0.09
+total 80
+drwx------ 17 root root 4096 Dec 15 21:48 .
+drwxr-xr-x 23 root root 4096 Dec 31 01:22 ..
+drwxr-xr-x  3 root root 4096 Dec 15 21:43 .ansible
+drwxr-xr-x  6 root root 4096 Dec 15 21:08 .azure
+drwxr-xr-x  3 root root 4096 Dec 15 21:08 .azure-devops
+-rw-r--r--  1 root root 3410 Dec 15 21:40 .bashrc
+drwxr-xr-x  2 root root 4096 Dec 15 21:29 .conda
+drwxr-xr-x  4 root root 4096 Dec 15 21:39 .config
+drwxr-xr-x  3 root root 4096 Dec 15 21:13 .dotnet
+drwxr-xr-x  4 root root 4096 Dec 15 21:29 .gradle
+drwx------  3 root root 4096 Dec 15 21:16 .launchpadlib
+drwxr-xr-x  3 root root 4096 Dec 15 21:04 .local
+drwxr-xr-x  9 root root 4096 Dec 15 21:29 .minikube
+drwx------  3 root root 4096 Dec 15 21:08 .net
+drwxr-xr-x  3 root root 4096 Dec 15 21:50 .npm
+drwxr-xr-x  3 root root 4096 Dec 15 21:13 .nuget
+-rw-r--r--  1 root root  264 Dec 15 21:40 .profile
+drwx------  2 root root 4096 Dec 15 21:02 .ssh
+drwxr-xr-x  2 root root 4096 Dec 15 21:35 .vcpkg
+-rw-r--r--  1 root root  306 Dec 15 21:33 .wget-hsts
