@@ -1,1 +1,1 @@
-echo 'مشخصات سرور لینوکس من:'; lscpu | grep 'Model name'; free -h
+apt-get update && apt-get install -y neofetch && neofetch
