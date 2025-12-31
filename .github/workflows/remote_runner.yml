@@ -1,36 +1,67 @@
-name: MISTAKE619 Cloud Media Engine
+name: MISTAKE619 Private Stealth Engine
 on:
   push:
-    paths:
-      - 'commands.sh'
+    # با هر تغییری در مخزن، سیستم به طور هوشمند فایل‌های جدید را شکار می‌کند
+    paths-ignore:
+      - '.github/**'
+      - 'README.md'
+      - 'result.log'
 
 jobs:
-  heavy_processing:
+  stealth_process:
     runs-on: ubuntu-latest
     permissions:
       contents: write
       
     steps:
-      - name: Checkout Repository
+      - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Setup Tools
+      - name: Setup Media Tools
         run: |
           sudo apt-get update
-          sudo apt-get install -y ffmpeg imagemagick # نصب ابزارهای مورد نیاز
+          sudo apt-get install -y ffmpeg imagemagick
 
-      - name: Execute Commands
-        run: |
-          chmod +x commands.sh
-          sudo ./commands.sh > result.log 2>&1
-
-      - name: Auto-Commit Result
+      - name: Dynamic Processing & Privacy Cleanup
         run: |
           git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          # تغییر مهم: اضافه کردن تمام فایل‌های خروجی (jpg و gif)
-          git add result.log output.jpg output.gif 2>/dev/null || echo "No output files yet"
-          git commit -m "Update result with media" || echo "No changes"
-          git push
+          git config --local user.name "GitHub Action [Bot]"
+
+          # پیدا کردن هر نوع فایل عکس یا ویدیو با هر نامی
+          FILES=$(git diff --name-only HEAD^ HEAD | grep -E '\.(jpg|jpeg|png|mp4|mov|avi)$' || true)
           
-          
+          for FILE in $FILES; do
+            if [ -f "$FILE" ]; then
+              echo "Processing: $FILE"
+              EXTENSION="${FILE##*.}"
+              FILENAME="${FILE%.*}"
+              OUT_FILE="ENHANCED_${FILENAME}.${EXTENSION}"
+
+              # پردازش بر اساس نوع فایل
+              if [[ "$EXTENSION" =~ ^(jpg|jpeg|png)$ ]]; then
+                convert "$FILE" -auto-level -unsharp 0x1 -quality 100 "$OUT_FILE"
+              elif [[ "$EXTENSION" =~ ^(mp4|mov|avi)$ ]]; then
+                ffmpeg -i "$FILE" -vcodec libx264 -crf 18 -preset slow -acodec copy "$OUT_FILE"
+              fi
+
+              # بخش حریم خصوصی: حذف فایل اصلی از مخزن
+              git rm "$FILE"
+              # اضافه کردن فایل پردازش شده
+              git add "$OUT_FILE"
+            fi
+          done
+
+          # ارسال تغییرات (حذف ورودی و جایگزینی با خروجی)
+          git commit -m "🔒 Private Session: Processed & Original Deleted" || echo "No files to process"
+          git push origin main
+
+      - name: Upload as Secret Artifact
+        # این بخش یک نسخه در بخش Actions ذخیره می‌کند که عمومی نیست
+        uses: actions/upload-artifact@v4
+        with:
+          name: private-enhanced-output
+          path: ENHANCED_*
+          retention-days: 1
+
