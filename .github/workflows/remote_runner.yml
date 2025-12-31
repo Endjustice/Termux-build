@@ -28,7 +28,9 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add result.log output.jpg 2>/dev/null || echo "No output image yet"
-          git commit -m "Update result" || echo "No changes"
+          # تغییر مهم: اضافه کردن تمام فایل‌های خروجی (jpg و gif)
+          git add result.log output.jpg output.gif 2>/dev/null || echo "No output files yet"
+          git commit -m "Update result with media" || echo "No changes"
           git push
+          
           
