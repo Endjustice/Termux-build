@@ -1,1 +1,1 @@
-curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python3 -
+magick input.jpg -sepia-tone 80% -resize 800x output.jpg
